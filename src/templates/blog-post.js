@@ -6,6 +6,9 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 import { remarkForm } from "gatsby-tinacms-remark"
+// import { liveRemarkForm } from "gatsby-tinacms-remark"
+// import { Wysiwyg } from "@tinacms/fields"
+// import { TinaField } from "@tinacms/form-builder"
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -29,6 +32,14 @@ class BlogPostTemplate extends React.Component {
             >
               {post.frontmatter.title}
             </h1>
+            {/* <h2
+              style={{
+                marginTop: rhythm(1),
+                marginBottom: 0,
+              }}
+            >
+              {post.frontmatter.author.email}
+            </h2> */}
             <p
               style={{
                 ...scale(-1 / 5),
@@ -40,6 +51,15 @@ class BlogPostTemplate extends React.Component {
             </p>
           </header>
           <section dangerouslySetInnerHTML={{ __html: post.html }} />
+          {/* <TinaField name="rawMarkdownBody" Component={Wysiwyg}>
+            <button onClick={() => this.props.setIsEditing(p => !p)}>
+              {this.props.isEditing ? "Preview" : "Edit"}
+            </button>
+            <section
+              class="content"
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            ></section>
+          </TinaField> */}
           <hr
             style={{
               marginBottom: rhythm(1),
@@ -117,6 +137,11 @@ const BlogPostForm = {
       label: "Textarea",
     },
     { name: "rawMarkdownBody", component: "markdown", label: "Body" },
+    {
+      name: "rawFrontmatter.author.email",
+      component: "email",
+      label: "Email",
+    },
   ],
 }
 
@@ -125,6 +150,7 @@ const BlogPostForm = {
  * and generates a new form from the data in the `markdownRemark` query.
  */
 export default remarkForm(BlogPostTemplate, BlogPostForm)
+// export default liveRemarkForm(BlogPostTemplate, BlogPostForm)
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
@@ -147,3 +173,27 @@ export const pageQuery = graphql`
     }
   }
 `
+// export const pageQuery = graphql`
+//   query BlogPostBySlug($slug: String!) {
+//     site {
+//       siteMetadata {
+//         title
+//         author
+//       }
+//     }
+//     markdownRemark(fields: { slug: { eq: $slug } }) {
+//       id
+//       excerpt(pruneLength: 160)
+//       html
+//       ...TinaRemark
+//       frontmatter {
+//         title
+//         date(formatString: "MMMM DD, YYYY")
+//         description
+//         author {
+//           email
+//         }
+//       }
+//     }
+//   }
+// `
