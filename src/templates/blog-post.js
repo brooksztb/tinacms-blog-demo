@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 import { remarkForm } from "gatsby-tinacms-remark"
+// import { EmailField } from "../components/EmailField"
 // import { liveRemarkForm } from "gatsby-tinacms-remark"
 // import { Wysiwyg } from "@tinacms/fields"
 // import { TinaField } from "@tinacms/form-builder"
@@ -137,11 +138,11 @@ const BlogPostForm = {
       label: "Textarea",
     },
     { name: "rawMarkdownBody", component: "markdown", label: "Body" },
-    {
-      name: "rawFrontmatter.author.email",
-      component: "email",
-      label: "Email",
-    },
+    // {
+    //   name: "rawFrontmatter.author.email",
+    //   component: EmailField,
+    //   label: "Email",
+    // },
   ],
 }
 
