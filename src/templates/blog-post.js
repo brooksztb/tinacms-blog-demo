@@ -39,7 +39,7 @@ class BlogPostTemplate extends React.Component {
                 marginBottom: 0,
               }}
             >
-              {post.frontmatter.author.email}
+              Author Contact: {post.frontmatter.author.email}
             </h2> */}
             <p
               style={{
