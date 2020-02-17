@@ -5,14 +5,14 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
-import { remarkForm } from "gatsby-tinacms-remark"
-// import { EmailField } from "../components/EmailField"
-// import { liveRemarkForm } from "gatsby-tinacms-remark"
+import { remarkForm, DeleteAction } from "gatsby-tinacms-remark"
+import { EmailField } from "../components/EmailField"
+// import { liveRemarkForm, DeleteAction } from "gatsby-tinacms-remark"
 // import { Wysiwyg } from "@tinacms/fields"
 // import { TinaField } from "@tinacms/form-builder"
 
 class BlogPostTemplate extends React.Component {
-  render() {
+  render(isEditing, setIsEditing) {
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next } = this.props.pageContext
@@ -52,10 +52,10 @@ class BlogPostTemplate extends React.Component {
             </p>
           </header>
           <section dangerouslySetInnerHTML={{ __html: post.html }} />
-          {/* <TinaField name="rawMarkdownBody" Component={Wysiwyg}>
-            <button onClick={() => this.props.setIsEditing(p => !p)}>
-              {this.props.isEditing ? "Preview" : "Edit"}
-            </button>
+          {/* <button onClick={() => this.props.setIsEditing(p => !p)}>
+            {this.props.isEditing ? "Preview" : "Edit"}
+          </button>
+          <TinaField name="rawMarkdownBody" Component={Wysiwyg}>
             <section
               class="content"
               dangerouslySetInnerHTML={{ __html: post.html }}
@@ -106,6 +106,7 @@ class BlogPostTemplate extends React.Component {
  * This object defines the form for editing blog post.
  */
 const BlogPostForm = {
+  actions: [DeleteAction],
   /**
    * The list of fields tell us what the form looks like.
    */
@@ -131,6 +132,11 @@ const BlogPostForm = {
       label: "Title",
       required: true,
     },
+    {
+      name: "rawFrontmatter.author.email",
+      component: EmailField,
+      label: "Email",
+    },
     { name: "frontmatter.date", component: "date", label: "Date" },
     {
       name: "frontmatter.description",
@@ -138,11 +144,6 @@ const BlogPostForm = {
       label: "Textarea",
     },
     { name: "rawMarkdownBody", component: "markdown", label: "Body" },
-    // {
-    //   name: "rawFrontmatter.author.email",
-    //   component: EmailField,
-    //   label: "Email",
-    // },
   ],
 }
 

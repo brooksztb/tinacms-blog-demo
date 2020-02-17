@@ -7,5 +7,10 @@ export const onClientEntry = () => {
   window.tinacms.fields.add({
     name: "email",
     Component: EmailField,
+    validate(value, allValues, meta, field) {
+      let isValidEmail = /.*@.*\..+/.test(value)
+
+      if (!isValidEmail) return "Invalid email address"
+    },
   })
 }
