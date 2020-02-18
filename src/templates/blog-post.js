@@ -132,11 +132,11 @@ const BlogPostForm = {
       label: "Title",
       required: true,
     },
-    {
-      name: "rawFrontmatter.author.email",
-      component: EmailField,
-      label: "Email",
-    },
+    // {
+    //   name: "rawFrontmatter.author.email",
+    //   component: EmailField,
+    //   label: "Email",
+    // },
     { name: "frontmatter.date", component: "date", label: "Date" },
     {
       name: "frontmatter.description",
@@ -171,6 +171,9 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        author {
+          email
+        }
       }
     }
   }

@@ -4,6 +4,7 @@ import { Link } from "gatsby"
 import { rhythm, scale } from "../utils/typography"
 import { withPlugin } from "react-tinacms"
 import { createRemarkButton } from "gatsby-tinacms-remark"
+import { EmailField } from "../components/EmailField"
 import slugify from "slugify"
 
 class Layout extends React.Component {
@@ -92,7 +93,14 @@ const CreatePostPlugin = createRemarkButton({
    * Clicking the `Post` in the `+` list opens a modal.
    * This modal contains a form with these fields.
    */
-  fields: [{ name: "title", component: "text", label: "Title" }],
+  fields: [
+    { name: "title", component: "text", label: "Title" },
+    {
+      name: "author.email",
+      component: EmailField,
+      label: "Email",
+    },
+  ],
   /**
    * Tina needs to know where the new markdown file is
    * going to live. This `filename` function generates
@@ -113,6 +121,9 @@ const CreatePostPlugin = createRemarkButton({
       title: form.title,
       date: new Date(),
       description: "",
+      author: {
+        email: form.author.email,
+      },
     }
   },
   /**
