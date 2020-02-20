@@ -5,11 +5,11 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
-import { remarkForm, DeleteAction } from "gatsby-tinacms-remark"
+// import { remarkForm, DeleteAction } from "gatsby-tinacms-remark"
 import { EmailField } from "../components/EmailField"
-// import { liveRemarkForm, DeleteAction } from "gatsby-tinacms-remark"
-// import { Wysiwyg } from "@tinacms/fields"
-// import { TinaField } from "@tinacms/form-builder"
+import { liveRemarkForm, DeleteAction } from "gatsby-tinacms-remark"
+import { Wysiwyg } from "@tinacms/fields"
+import { TinaField } from "@tinacms/form-builder"
 
 class BlogPostTemplate extends React.Component {
   render(isEditing, setIsEditing) {
@@ -33,14 +33,14 @@ class BlogPostTemplate extends React.Component {
             >
               {post.frontmatter.title}
             </h1>
-            {/* <h2
+            <h2
               style={{
                 marginTop: rhythm(1),
                 marginBottom: 0,
               }}
             >
               Author Contact: {post.frontmatter.author.email}
-            </h2> */}
+            </h2>
             <p
               style={{
                 ...scale(-1 / 5),
@@ -51,8 +51,8 @@ class BlogPostTemplate extends React.Component {
               {post.frontmatter.date}
             </p>
           </header>
-          <section dangerouslySetInnerHTML={{ __html: post.html }} />
-          {/* <button onClick={() => this.props.setIsEditing(p => !p)}>
+          {/* <section dangerouslySetInnerHTML={{ __html: post.html }} /> */}
+          <button onClick={() => this.props.setIsEditing(p => !p)}>
             {this.props.isEditing ? "Preview" : "Edit"}
           </button>
           <TinaField name="rawMarkdownBody" Component={Wysiwyg}>
@@ -60,7 +60,7 @@ class BlogPostTemplate extends React.Component {
               class="content"
               dangerouslySetInnerHTML={{ __html: post.html }}
             ></section>
-          </TinaField> */}
+          </TinaField>
           <hr
             style={{
               marginBottom: rhythm(1),
@@ -132,11 +132,11 @@ const BlogPostForm = {
       label: "Title",
       required: true,
     },
-    // {
-    //   name: "rawFrontmatter.author.email",
-    //   component: EmailField,
-    //   label: "Email",
-    // },
+    {
+      name: "rawFrontmatter.author.email",
+      component: EmailField,
+      label: "Email",
+    },
     { name: "frontmatter.date", component: "date", label: "Date" },
     {
       name: "frontmatter.description",
@@ -151,8 +151,8 @@ const BlogPostForm = {
  * The `remarkForm` higher order component wraps the `BlogPostTemplate`
  * and generates a new form from the data in the `markdownRemark` query.
  */
-export default remarkForm(BlogPostTemplate, BlogPostForm)
-// export default liveRemarkForm(BlogPostTemplate, BlogPostForm)
+// export default remarkForm(BlogPostTemplate, BlogPostForm)
+export default liveRemarkForm(BlogPostTemplate, BlogPostForm)
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
@@ -171,6 +171,9 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        author {
+          email
+        }
       }
     }
   }
